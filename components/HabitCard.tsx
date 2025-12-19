@@ -14,28 +14,30 @@ interface HabitCardProps {
 
 export function HabitCard({ habit, onPress, onToggle, isCompleted }: HabitCardProps) {
     const IconComponent = LucideIcons[habit.icon as keyof typeof LucideIcons] as React.ElementType;
+    const isBadHabit = habit.category === 'bad';
 
     return (
-        <TouchableOpacity onPress={onPress} activeOpacity={0.9} style={styles.container}>
-            <View style={[styles.iconContainer, { backgroundColor: habit.color || '#F0F0F0' }]}>
-                {IconComponent && <IconComponent size={24} color={Colors.light.primary} />}
-                {/* Helper to get contrast color might be needed, using primary for now or habit.iconColor if saved */}
+        <TouchableOpacity onPress={onPress} activeOpacity={0.7} style={styles.container}>
+            <View style={[styles.iconContainer, { backgroundColor: isBadHabit ? Colors.light.errorContainer : Colors.light.primaryContainer }]}>
+                {IconComponent && <IconComponent size={24} color={isBadHabit ? Colors.light.onErrorContainer : Colors.light.onPrimaryContainer} />}
             </View>
 
             <View style={styles.content}>
                 <ThemedText type="defaultSemiBold">{habit.title}</ThemedText>
                 <View style={styles.stats}>
-                    {/* Simple recurring Icon or streak info */}
-                    <LucideIcons.Repeat size={14} color="#8E8E93" />
-                    <ThemedText style={styles.statText}>Daily</ThemedText>
-
+                    {habit.scheduledTime && (
+                        <View style={styles.timeTag}>
+                            <LucideIcons.Clock size={12} color={Colors.light.textSecondary} />
+                            <ThemedText style={styles.statText}>{habit.scheduledTime}</ThemedText>
+                        </View>
+                    )}
                     <LucideIcons.Flame size={14} color="#FF9800" style={{ marginLeft: 8 }} />
                     <ThemedText style={styles.statText}>{habit.streak} days</ThemedText>
                 </View>
             </View>
 
             <TouchableOpacity onPress={onToggle} style={[styles.checkbox, isCompleted && styles.checked]}>
-                {isCompleted && <LucideIcons.Check size={20} color="white" />}
+                {isCompleted && <LucideIcons.Check size={20} color={Colors.light.onPrimary} />}
             </TouchableOpacity>
         </TouchableOpacity>
     );
@@ -87,7 +89,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     checked: {
-        backgroundColor: Colors.light.success,
-        borderColor: Colors.light.success,
+        backgroundColor: Colors.light.primary,
+        borderColor: Colors.light.primary,
+    },
+    timeTag: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: Colors.light.surfaceVariant,
+        paddingHorizontal: 6,
+        paddingVertical: 2,
+        borderRadius: 4,
+        marginRight: 8,
     }
 });

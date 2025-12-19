@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ScrollView, RefreshControl } from 'react-native';
+import { View, StyleSheet, ScrollView, RefreshControl, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ThemedText } from '@/components/ThemedText';
 import { CalendarStrip } from '@/components/CalendarStrip';
 import { HabitCard } from '@/components/HabitCard';
-import { useHabitStore } from '@/store/habitStore';
+import { useHabitStore, Habit } from '@/store/habitStore';
 import { Colors } from '@/constants/Colors';
 import { format } from 'date-fns';
 import { useRouter } from 'expo-router';
@@ -72,7 +72,7 @@ export default function HomeScreen() {
                         <ThemedText>No habits added yet.</ThemedText>
                     </View>
                 ) : (
-                    todaysHabits.map((habit) => (
+                    todaysHabits.sort((a: Habit, b: Habit) => (a.scheduledTime || '').localeCompare(b.scheduledTime || '')).map((habit: Habit) => (
                         <HabitCard
                             key={habit.id}
                             habit={habit}
@@ -87,6 +87,12 @@ export default function HomeScreen() {
                 )}
 
             </ScrollView>
+            <TouchableOpacity
+                style={styles.fab}
+                onPress={() => router.push('/(onboarding)/setup?title=New Habit')}
+            >
+                <ThemedText style={{ fontSize: 24, color: Colors.light.onPrimary }}>+</ThemedText>
+            </TouchableOpacity>
         </SafeAreaView>
     );
 }
@@ -142,5 +148,21 @@ const styles = StyleSheet.create({
         padding: 32,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    fab: {
+        position: 'absolute',
+        bottom: 24,
+        right: 24,
+        width: 56,
+        height: 56,
+        borderRadius: 28,
+        backgroundColor: Colors.light.primary,
+        justifyContent: 'center',
+        alignItems: 'center',
+        elevation: 8,
+        shadowColor: Colors.light.primary,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
     }
 });

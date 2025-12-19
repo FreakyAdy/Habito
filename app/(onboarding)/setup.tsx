@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, TextInput, Switch, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { View, StyleSheet, TextInput, Switch, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity } from 'react-native';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ThemedText } from '@/components/ThemedText';
@@ -18,6 +18,8 @@ export default function SetupScreen() {
 
     const [goal, setGoal] = useState('');
     const [unit, setUnit] = useState('mins'); // Simple unit selection
+    const [category, setCategory] = useState<'good' | 'bad'>('good');
+    const [time, setTime] = useState('09:00');
     const { addHabit, completeOnboarding } = useHabitStore();
 
     const IconComponent = LucideIcons[icon as keyof typeof LucideIcons] as React.ElementType;
@@ -34,6 +36,8 @@ export default function SetupScreen() {
             goal: goal || '15',
             unit: unit,
             completedDates: [],
+            category: category,
+            scheduledTime: time,
         };
         addHabit(newHabit);
         completeOnboarding();
@@ -60,7 +64,6 @@ export default function SetupScreen() {
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
                 <ScrollView style={styles.form}>
                     <ThemedText type="defaultSemiBold" style={styles.label}>Set your goal</ThemedText>
-
                     <View style={styles.inputContainer}>
                         <TextInput
                             style={styles.input}
@@ -71,7 +74,22 @@ export default function SetupScreen() {
                             placeholderTextColor="#CCC"
                         />
                         <ThemedText style={{ color: Colors.light.textSecondary }}>pages</ThemedText>
-                        {/* Hardcoded 'pages' for now as per image reference for reading, but should be dynamic */}
+                    </View>
+
+                    <ThemedText type="defaultSemiBold" style={styles.label}>Category</ThemedText>
+                    <View style={styles.segmentedControl}>
+                        <TouchableOpacity
+                            style={[styles.segment, category === 'good' && styles.segmentActive]}
+                            onPress={() => setCategory('good')}
+                        >
+                            <ThemedText style={[styles.segmentText, category === 'good' && styles.segmentTextActive]}>Build (Good)</ThemedText>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={[styles.segment, category === 'bad' && styles.segmentActive]}
+                            onPress={() => setCategory('bad')}
+                        >
+                            <ThemedText style={[styles.segmentText, category === 'bad' && styles.segmentTextActive]}>Quit (Bad)</ThemedText>
+                        </TouchableOpacity>
                     </View>
 
                     <View style={styles.reminderContainer}>
@@ -87,13 +105,17 @@ export default function SetupScreen() {
 
                         <View style={styles.reminderItem}>
                             <View style={[styles.iconBox, { backgroundColor: '#FFECB3' }]}>
-                                <LucideIcons.Bell size={20} color="#FF9800" />
+                                <LucideIcons.Clock size={20} color="#FF9800" />
                             </View>
-                            <View style={{ marginLeft: 12 }}>
-                                <ThemedText type="defaultSemiBold">Reminder</ThemedText>
-                                <ThemedText type="caption">10:00 AM</ThemedText>
+                            <View style={{ marginLeft: 12, flex: 1 }}>
+                                <ThemedText type="defaultSemiBold">Time</ThemedText>
+                                <TextInput
+                                    placeholder="09:00"
+                                    value={time}
+                                    onChangeText={setTime}
+                                    style={{ fontSize: 14, color: Colors.light.textSecondary }}
+                                />
                             </View>
-                            <Switch value={true} trackColor={{ true: Colors.light.primary }} style={{ marginLeft: 'auto' }} />
                         </View>
                     </View>
                 </ScrollView>
@@ -167,5 +189,35 @@ const styles = StyleSheet.create({
     },
     footer: {
         padding: 24,
+    },
+    segmentedControl: {
+        flexDirection: 'row',
+        backgroundColor: '#F0F0F0',
+        borderRadius: 12,
+        padding: 4,
+        marginBottom: 24,
+    },
+    segment: {
+        flex: 1,
+        paddingVertical: 10,
+        alignItems: 'center',
+        borderRadius: 10,
+    },
+    segmentActive: {
+        backgroundColor: 'white',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 2,
+    },
+    segmentText: {
+        fontSize: 14,
+        color: '#8E8E93',
+        fontWeight: '500',
+    },
+    segmentTextActive: {
+        color: Colors.light.primary,
+        fontWeight: '600',
     }
 });

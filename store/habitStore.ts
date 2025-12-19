@@ -10,6 +10,9 @@ export interface Habit {
     unit: string;
     completedDates: string[]; // ISO date strings
     reminderTime?: string;
+    notes?: { id: string, date: string, content: string }[];
+    category?: 'good' | 'bad';
+    scheduledTime?: string; // "HH:mm" format for timetable
 }
 
 interface HabitState {
@@ -19,6 +22,7 @@ interface HabitState {
     toggleHabitCompletion: (id: string, date: string) => void;
     completeOnboarding: () => void;
     removeHabit: (id: string) => void;
+    addNote: (habitId: string, note: string) => void;
 }
 
 export const useHabitStore = create<HabitState>((set) => ({
@@ -41,4 +45,15 @@ export const useHabitStore = create<HabitState>((set) => ({
         })
     })),
     completeOnboarding: () => set({ isOnboardingCompleted: true }),
+    addNote: (habitId, noteContent) => set((state) => ({
+        habits: state.habits.map((h) => {
+            if (h.id === habitId) {
+                return {
+                    ...h,
+                    notes: [...(h.notes || []), { id: Date.now().toString(), date: new Date().toISOString(), content: noteContent }]
+                };
+            }
+            return h;
+        })
+    })),
 }));
