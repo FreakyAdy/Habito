@@ -1,58 +1,82 @@
-# Habito - Digital Wellbeing & Habit Tracker
+# ✨ Habito
 
-Habito is a modern, cross-platform mobile application built with **React Native** and **Expo**. It is designed to help users build better habits, break bad ones, and improve their digital wellbeing through a clean, Material Design-inspired interface.
+**Clean. Simple. Effective.**
 
-## 🚀 Key Features
+Habito is a premium Digital Wellbeing & Habit Tracker app designed to help you build a better version of yourself. Built with modern technology and a focus on user experience, Habito provides the tools you need to stay consistent and mindful.
 
-- **Habit Tracking**: Track daily habits with ease.
-- **Onboarding Flow**: Smooth introduction for new users.
-- **Timer & Focus**: Built-in timers to help maintain focus on tasks.
-- **Digital Wellbeing Stats**: Monitor your progress and trends.
-- **Material Design**: A sleek, modern UI designed for a premium user experience.
+---
 
-## 🛠 Tech Stack
+## 🌟 Key Features
 
-- **Framework**: [React Native](https://reactnative.dev/) with [Expo](https://expo.dev/)
-- **Navigation**: [Expo Router](https://docs.expo.dev/router/introduction/) (File-based routing)
-- **Language**: TypeScript
-- **State Management**: Zustand (via `store/habitStore.ts`)
-- **Styling**: Vanilla CSS / React Native StyleSheet
+*   **⚡ Habit Tracking:** Effortlessly track your daily routines and stay on top of your goals.
+*   **📊 Insightful Statistics:** Visualize your progress with beautiful, easy-to-read charts.
+*   **⏲️ Focus Timer:** Built-in productivity timer to help you stay in the zone.
+*   **🎨 Material UI:** A stunning, modern interface with smooth animations and transitions.
+*   **🧩 Digital Wellbeing:** Strategic tips and insights to help you break bad habits and reclaim your time.
+
+---
+
+## 🚀 Tech Stack
+
+Habito is built using the latest industry-standard tools:
+
+*   **Core:** [React Native](https://reactnative.dev/) + [Expo](https://expo.dev/)
+*   **Routing:** [Expo Router](https://docs.expo.dev/router/introduction/) (v6)
+*   **Icons:** [Lucide React Native](https://lucide.dev/)
+*   **State:** [Zustand](https://github.com/pmndrs/zustand)
+*   **Animations:** [React Native Reanimated](https://docs.swmansion.com/react-native-reanimated/)
+*   **Formatting:** [Date-fns](https://date-fns.org/)
+
+---
 
 ## 📁 Project Structure
 
-```text
+```bash
 Habito/
-├── app/                  # Expo Router directory (screens & layouts)
-│   ├── (onboarding)/     # Welcome & setup flow
-│   ├── (tabs)/           # Main navigation tabs
-│   └── habit/            # Habit-specific views
-├── components/           # Reusable UI components
-├── constants/            # Design tokens & static data (Colors, Tips)
-├── store/                # Global state management
-└── assets/               # Images, icons, and fonts
+├── 📱 app/                 # Expo Router (Screens & Layouts)
+│   ├── (onboarding)/      # Welcome & Intro screens
+│   ├── (tabs)/            # Main navigation (Home, Stats, Profile)
+│   └── habit/             # Habit detail views
+├── 🧩 components/          # Reusable UI components
+├── 🎨 constants/           # Design system & static config
+├── 🧠 store/               # Zustand state Management
+└── 🏞️ assets/               # Visual assets & fonts
 ```
 
-## ⚙️ Getting Started
+---
 
-1. **Install Dependencies**:
+## 🛠️ Getting Started
+
+### Prerequisites
+
+*   Node.js (LTS)
+*   npm or yarn
+*   Expo Go app on your phone (optional for testing)
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/habito.git
+   cd Habito
+   ```
+
+2. **Install dependencies**
    ```bash
    npm install
    ```
 
-2. **Start the Development Server**:
+3. **Launch the app**
    ```bash
    npx expo start
    ```
 
-3. **Run on Device/Simulator**:
-   - Press `a` for Android
-   - Press `i` for iOS
-   - Press `w` for Web
+---
 
-## 📦 Deployment
+## 🤝 Contributing
 
-This project is configured for **EAS Build** (Expo Application Services).
-Check `eas.json` for build profiles.
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ---
-Created with ❤️ by the Habito team.
+
+Made with ❤️ by the Habito Team.
